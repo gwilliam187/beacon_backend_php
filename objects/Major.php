@@ -15,7 +15,8 @@ class Major {
 		$query = "INSERT INTO `major` VALUES(DEFAULT, :name)";
 
 		$stmt = $this->conn->prepare($query);
-		$stmt->bindValue(':name', $this->name);
+		$stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
+
 		if($stmt->execute()) {
 			return true;
 		} else {
@@ -47,10 +48,27 @@ class Major {
 
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindValue(":id", $this->id, PDO::PARAM_INT);
-		$stmt->bindValue(":name", $this->name, PDO::PARAM_INT);
-		$stmt->execute();
+		$stmt->bindValue(":name", $this->name, PDO::PARAM_STR);
 
+		if($stmt->execute()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
+
+	function delete() {
+	    $query = "DELETE FROM `major` WHERE `major_id` = :id";
+
+	    $stmt = $this->conn->prepare($query);
+	    $stmt->bindValue(":id", $this->id, PDO::PARAM_INT);
+
+	    if($stmt->execute()) {
+	        return true;
+        } else {
+	        return false;
+        }
+    }
 }
 
 ?>

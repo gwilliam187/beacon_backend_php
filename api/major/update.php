@@ -8,17 +8,19 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 require_once('../../config/database.php');
 require_once('../../objects/Major.php');
- 
+
 $database = new Database();
 $db = $database->getConnection();
- 
+
 $obj = new Major($db);
 
-$obj->name = isset($_POST["name"]) ? $_POST["name"] : die();
- 
-if($obj->create()) {
-    echo json_encode(array("message" => "Record was created."));
+$obj->id = isset($_GET['id']) ? $_GET['id'] : die();
+$obj->name = isset($_GET['name']) ? $_GET['name'] : die();
+
+if($obj->update()) {
+    echo json_encode(array("message" => "Record was updated."));
 } else {
-    echo json_encode(array("message" => "Unable to create record."));
+    echo json_encode(array("message" => "Unable to update record."));
 }
+
 ?>

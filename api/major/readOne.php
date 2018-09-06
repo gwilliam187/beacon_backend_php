@@ -7,7 +7,7 @@ header("Access-Control-Allow-Credentials: true");
 header("Content-Type: application/json; charset=UTF-8");
  
 require_once('../../config/database.php');
-require_once('../../objects/major.php');
+require_once('../../objects/Major.php');
  
 $database = new Database();
 $db = $database->getConnection();
