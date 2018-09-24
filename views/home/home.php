@@ -14,8 +14,7 @@ include('../../include/include.php');
 </head>
 <body>
   <?php echo $navbar; ?>
-  <!-- BEGIN CONTAINER -->
-  <div class="page-container row-fluid">
+  <div class="page-container row-fluid"><!-- BEGIN CONTAINER -->
     <?php echo $sidebar; ?>
   </div><!-- END CONTAINER -->
 </body>

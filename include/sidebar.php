@@ -51,10 +51,10 @@ $sidebar = '
           </ul>
         </li>
         <li class="side-room">
-          <a href="email.html"><i class="material-icons">meeting_room</i> <span class="title">Rooms</span> <span class="arrow"></span> </a>
+          <a href="#"><i class="material-icons">meeting_room</i> <span class="title">Rooms</span> <span class="arrow"></span> </a>
           <ul class="sub-menu">
-            <li><a href="theme_coporate.html">Add Room</a></li>
-            <li><a href="theme_simple.html">View Rooms</a></li>
+            <li><a href="../room/add.php">Add Room</a></li>
+            <li><a href="../room/view.php">View Rooms</a></li>
           </ul>
         </li>
       </ul>

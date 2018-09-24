@@ -7,12 +7,12 @@ header("Access-Control-Allow-Credentials: true");
 header("Content-Type: application/json; charset=UTF-8");
  
 require_once('../../config/database.php');
-require_once('../../objects/Major.php');
+require_once('../../objects/UnivClass.php');
  
 $database = new Database();
 $db = $database->getConnection();
  
-$obj = new Major($db);
+$obj = new UnivClass($db);
  
 $obj->id = isset($_GET['id']) ? $_GET['id'] : die();
  
@@ -24,10 +24,18 @@ if($num == 1) {
 
 	$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-	$obj->name = $row["name"];
+	$obj->date = $row["date"];
+	$obj->startTime = $row["start_time"];
+	$obj->endTime = $row["end_time"];
+	$obj->course = $row["course_name"];
+	$obj->room = $row["room_name"];
 	$objItem = array(
 		"id" => $obj->id,
-	    "name" => $obj->name
+        "date" => $obj->date,
+        "startTime" => $obj->startTime,
+        "endTime" => $obj->endTime,
+        "courseName" => $obj->course,
+        "roomName" => $obj->room
 	);
 
 	$objArr[] = $objItem;

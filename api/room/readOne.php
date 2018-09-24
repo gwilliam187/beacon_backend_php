@@ -7,12 +7,12 @@ header("Access-Control-Allow-Credentials: true");
 header("Content-Type: application/json; charset=UTF-8");
  
 require_once('../../config/database.php');
-require_once('../../objects/Major.php');
+require_once('../../objects/Room.php');
  
 $database = new Database();
 $db = $database->getConnection();
  
-$obj = new Major($db);
+$obj = new Room($db);
  
 $obj->id = isset($_GET['id']) ? $_GET['id'] : die();
  
@@ -25,9 +25,11 @@ if($num == 1) {
 	$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 	$obj->name = $row["name"];
+	$obj->beacon = $row["beacon"];
 	$objItem = array(
 		"id" => $obj->id,
-	    "name" => $obj->name
+	    "name" => $obj->name,
+	    "beacon" => $obj->beacon
 	);
 
 	$objArr[] = $objItem;

@@ -33,6 +33,7 @@ $footer = '
 <script src="../../assets/plugins/Mapplic/mapplic/mapplic.js" type="text/javascript"></script>
 <script src="../../assets/plugins/jquery-flot/jquery.flot.js" type="text/javascript"></script>
 <script src="../../assets/plugins/jquery-metrojs/MetroJs.min.js" type="text/javascript"></script>
+<script src="../../assets/plugins/DataTables/datatables.min.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN CORE TEMPLATE JS -->
 <!-- <script src="../../assets/js/dashboard_v2.js" type="text/javascript"></script> -->
