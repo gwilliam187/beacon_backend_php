@@ -16,12 +16,14 @@ class Student {
 	}
 
     function create() {
-        $query = "INSERT INTO `student` VALUES(:id, :name, :date, :pass, :majorId)";
+        $query = "
+            INSERT INTO `student`(`student_id`, `name`, `entrance_date`, `password`, `fk_major_id`) 
+            VALUES(:id, :name, :entranceDate, :pass, :majorId)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":id", $this->id, PDO::PARAM_STR);
         $stmt->bindValue(":name", $this->name, PDO::PARAM_STR);
-        $stmt->bindValue(":date", $this->entranceDate, PDO::PARAM_STR);
+        $stmt->bindValue(":entranceDate", $this->entranceDate, PDO::PARAM_STR);
         $stmt->bindValue(":pass", $this->pass, PDO::PARAM_STR);        
         $stmt->bindValue(":majorId", $this->majorId, PDO::PARAM_INT);
 
@@ -34,9 +36,10 @@ class Student {
 
 	function read() {
 		$query = "
-			SELECT s.`student_id`, s.`name`, s.`entrance_date`, m.`name` `major_name`
+			SELECT s.`student_id`, s.`name`, s.`entrance_date`, m.`major_id` `major_id`, m.`name` `major_name`
 			FROM `student` s
-			INNER JOIN `major` m ON m.`major_id` = s.`fk_major_id`";
+			INNER JOIN `major` m ON m.`major_id` = s.`fk_major_id`
+            WHERE s.`is_deleted` = 0";
 
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
@@ -46,10 +49,10 @@ class Student {
 
 	function readOne() {
         $query = "
-			SELECT s.`student_id`, s.`name`, s.`entrance_date`, m.`name` `major_name`
+			SELECT s.`student_id`, s.`name`, s.`entrance_date`, s.`password`, m.`major_id`, m.`name` `major_name`
 			FROM `student` s
 			INNER JOIN `major` m ON m.`major_id` = s.`fk_major_id`
-			WHERE `student_id` = :id";
+			WHERE `student_id` = :id AND s.`is_deleted` = 0";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":id", $this->id, PDO::PARAM_STR);
@@ -63,14 +66,16 @@ class Student {
             UPDATE `student` 
             SET 
               `name` = :name,
-              `entrance_date` = :date,
+              `entrance_date` = :entranceDate,
+              `password` = :pass,
               `fk_major_id` = :majorId 
             WHERE `student_id` = :id";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":id", $this->id, PDO::PARAM_INT);
         $stmt->bindValue(":name", $this->name, PDO::PARAM_STR);
-        $stmt->bindValue(":date", $this->entranceDate, PDO::PARAM_STR);
+        $stmt->bindValue(":entranceDate", $this->entranceDate, PDO::PARAM_STR);
+        $stmt->bindValue(":pass", $this->pass, PDO::PARAM_INT);
         $stmt->bindValue(":majorId", $this->majorId, PDO::PARAM_INT);
 
         if($stmt->execute()) {
@@ -81,7 +86,7 @@ class Student {
     }
 
     function delete() {
-        $query = "DELETE FROM `student` WHERE `student_id` = :id";
+        $query = "UPDATE `student` SET `is_deleted` = 1 WHERE `student_id` = :id";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":id", $this->id, PDO::PARAM_INT);
@@ -103,11 +108,10 @@ class Student {
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":id", $this->id, PDO::PARAM_STR);
         $stmt->bindValue(":pass", $this->pass, PDO::PARAM_STR);
-        $stmt->execute()
+        $stmt->execute();
 
         return $stmt;
     }
-}
 }
 
 ?>

@@ -12,7 +12,7 @@ class Course {
 	}
 
     function create() {
-        $query = "INSERT INTO `course` VALUES(DEFAULT, :name)";
+        $query = "INSERT INTO `course`(`name`) VALUES(:name)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":name", $this->name, PDO::PARAM_STR);
@@ -25,7 +25,7 @@ class Course {
     }
 
 	function read() {
-		$query = "SELECT * FROM `course`";
+		$query = "SELECT * FROM `course` WHERE `is_deleted` = 0";
 
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
@@ -34,7 +34,7 @@ class Course {
 	}
 
     function readOne() {
-        $query = "SELECT * FROM `course` WHERE `course_id` = :id";
+        $query = "SELECT * FROM `course` WHERE `course_id` = :id AND `is_deleted` = 0";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":id", $this->id, PDO::PARAM_INT);
@@ -58,7 +58,7 @@ class Course {
     }
 
     function delete() {
-        $query = "DELETE FROM `course` WHERE `course_id` = :id";
+        $query = "UPDATE `course` SET `is_deleted` = 1 WHERE `course_id` = :id";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":id", $this->id, PDO::PARAM_INT);

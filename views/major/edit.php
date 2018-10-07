@@ -2,6 +2,14 @@
 
 include('../../include/include.php');
 
+if(!isset($_GET["id"])) {
+  header("Location: ../major/view.php");
+}
+
+$id = $_GET["id"];
+$getData = callAPI("GET", "http://localhost/beacon_backend/api/major/readOne.php?id=" . $id, false);
+$result = json_decode($getData, true);
+
 ?>
 
 <!doctype html>
@@ -20,10 +28,10 @@ include('../../include/include.php');
     	<div class="content">
 				<ul class="breadcrumb">
 					<li><p>YOU ARE HERE</p></li>
-					<li><a href="#" class="active">Add Major</a> </li>
+					<li><a href="#" class="active">Edit Major</a> </li>
 				</ul>
 				<div class="page-title"> <i class="icon-custom-left"></i>
-					<h3>Major - <span class="semi-bold">Add</span></h3>
+					<h3>Major - <span class="semi-bold">Edit</span></h3>
 				</div>
 				<div class="row" >
           <div class="col-md-12">
@@ -38,20 +46,21 @@ include('../../include/include.php');
               <div class="grid-body no-border">
                 <br>
                 <form id="pageForm">
+                  <input type="hidden" name="id" value="<?php echo $result['id']; ?>">
                   <div class="row">
-                    <div class="col-md-8 col-sm-8 col-xs-8" >
+                    <div class="col-md-8 col-sm-8 col-xs-8">
                       <div class="form-group">
                         <label class="form-label">Major Name</label>
                         <!-- <span class="help">asdf</span> -->
                         <!-- <span>This Field Is Required</span> -->
                         <div class="controls">
-                          <input type="text" name="name" class="form-control">
+                          <input type="text" name="name" class="form-control" value="<?php echo $result['name']; ?>">
                         </div>
                       </div>
                     </div>
   								</div>
                   <div>
-  	              	<button class="custom-submit-button">Add</button>
+  	              	<button class="custom-submit-button">Update</button>
   	              </div>
                 </form>
               </div>
@@ -68,19 +77,19 @@ include('../../include/include.php');
     $("#pageForm").submit(function(e) {
       e.preventDefault();
       var data = $(this).serialize();
-      $.post("/beacon_backend/api/major/create.php", data, function(data, status) {
+      $.post("/beacon_backend/api/major/update.php", data, function(data, status) {
         if(status == "success") {
           $("#pageForm").prepend(
             "<div class='alert alert-success'>" +
               "<button class='close' data-dismiss='alert'></button>" +
-              "Success: The record has been added." +
+              "Success: The record has been updated." +
             "</div>"
           );
         } else {
           $("#pageForm").prepend(
             "<div class='alert alert-error'>" +
               "<button class='close' data-dismiss='alert'></button>" +
-              "Error: Transaction Failed." +
+              "Error: Transaction failed." +
             "</div>"
           );
         }

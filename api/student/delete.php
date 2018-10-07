@@ -14,7 +14,7 @@ $db = $database->getConnection();
 
 $obj = new Student($db);
 
-$obj->id = isset($_GET['id']) ? $_GET['id'] : die();
+$obj->id = isset($_POST['id']) ? $_POST['id'] : die();
 
 if($obj->delete()) {
     echo json_encode(array("message" => "Record was deleted."));

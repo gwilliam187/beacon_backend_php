@@ -14,8 +14,8 @@ $db = $database->getConnection();
 
 $obj = new Course($db);
 
-$obj->id = isset($_GET['id']) ? $_GET['id'] : die();
-$obj->name = isset($_GET['name']) ? $_GET['name'] : die();
+$obj->id = isset($_POST['id']) ? $_POST['id'] : die();
+$obj->name = isset($_POST['name']) ? $_POST['name'] : die();
 
 if($obj->update()) {
     echo json_encode(array("message" => "Record was updated."));

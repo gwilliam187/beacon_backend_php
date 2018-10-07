@@ -7,16 +7,16 @@ header("Access-Control-Allow-Credentials: true");
 header("Content-Type: application/json; charset=UTF-8");
  
 require_once('../../config/database.php');
-require_once('../../objects/Student.php');
+require_once('../../objects/UnivClass.php');
  
 $database = new Database();
 $db = $database->getConnection();
  
-$obj = new Student($db);
+$obj = new UnivClass($db);
  
-$obj->id = isset($_GET['id']) ? $_GET['id'] : die();
+$beaconId = isset($_GET['beacon_id']) ? $_GET['beacon_id'] : die();
  
-$stmt = $obj->readOne();
+$stmt = $obj->readCurrentClass($beaconId);
 $num = $stmt->rowCount();
 
 if($num == 1) {
@@ -24,18 +24,16 @@ if($num == 1) {
 
 	$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-	$obj->name = $row["name"];
-	$obj->entranceDate = $row["entrance_date"];
-	$obj->majorId = $row["major_id"];
-	$obj->major = $row["major_name"];
-	$obj->pass = $row["password"];
+	$obj->id = $row["class_id"];
+	$obj->course = $row["name"];
+	$obj->startTime = $row["start_time"];
+	$obj->endTime = $row["end_time"];
+
 	$objItem = array(
 		"id" => $obj->id,
-	    "name" => $obj->name,
-	    "entranceDate" => $obj->entranceDate,
-	    "pass" => $obj->pass,
-	    "majorId" => $obj->majorId,
-	    "major" => $obj->major
+		"courseName" => $obj->course,
+        "startTime" => $obj->startTime,
+        "endTime" => $obj->endTime
 	);
 
 	$objArr[] = $objItem;

@@ -4,14 +4,16 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 require_once('../../config/database.php');
-require_once('../../objects/Student.php');
+require_once('../../objects/MajorHasCourse.php');
 
 $database = new Database();
 $db = $database->getConnection();
  
-$obj = new Student($db);
+$obj = new MajorHasCourse($db);
+
+$obj->majorId = isset($_GET['major_id']) ? $_GET['major_id'] : die();
  
-$stmt = $obj->read();
+$stmt = $obj->readWhereMajor();
 $num = $stmt->rowCount();
 
 if($num > 0) {
@@ -19,11 +21,11 @@ if($num > 0) {
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { 
         $objItem = array(
-            "studentId" => $row["student_id"],
-            "name" => $row["name"],
-            "entranceDate" => $row["entrance_date"],
+            "courseId" => $row["course_id"],
+            "course" => $row["course_name"],
             "majorId" => $row["major_id"],
-            "major" => $row["major_name"]
+            "major" => $row["major_name"],
+            "semester" => $row["semester"]
         );
         
         $objArr[] = $objItem;

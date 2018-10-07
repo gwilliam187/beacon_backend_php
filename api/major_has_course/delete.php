@@ -7,19 +7,20 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 require_once('../../config/database.php');
-require_once('../../objects/Course.php');
+require_once('../../objects/MajorHasCourse.php');
 
 $database = new Database();
 $db = $database->getConnection();
 
-$obj = new Course($db);
+$obj = new MajorHasCourse($db);
 
-$obj->id = isset($_POST['id']) ? $_POST['id'] : die();
+$obj->majorId = isset($_POST['major_id']) ? $_POST['major_id'] : die();
+$obj->courseId = isset($_POST['course_id']) ? $_POST['course_id'] : die();
 
 if($obj->delete()) {
-    echo json_encode(array("message" => "Record was deleted."));
+    echo json_encode(array("message" => "success"));
 } else {
-    echo json_encode(array("message" => "Unable to delete record."));
+    echo json_encode(array("message" => "fail"));
 }
 
 ?>

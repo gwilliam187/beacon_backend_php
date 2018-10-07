@@ -11,3 +11,19 @@
 .grid.simple .grid-title .custom-tools a {
 	color: #00e;
 }
+
+button.buttonAdjacentInput {
+	min-height: 37px;
+}
+
+select.dropdown100px {
+	width: 100px;
+}
+
+.table > thead > tr > th.checkboxColumn {
+	width: 1px;
+}
+
+.min-height-25 {
+	min-height: 25px !important;
+}

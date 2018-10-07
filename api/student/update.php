@@ -14,10 +14,11 @@ $db = $database->getConnection();
 
 $obj = new Student($db);
 
-$obj->id = isset($_GET['id']) ? $_GET['id'] : die();
-$obj->name = isset($_GET['name']) ? $_GET['name'] : die();
+$obj->id = isset($_POST['id']) ? $_POST['id'] : die();
+$obj->name = isset($_POST['name']) ? $_POST['name'] : die();
 $obj->entranceDate = isset($_POST["entrance_date"]) ? $_POST["entrance_date"] : die();
-$obj->major = isset($_POST["major"]) ? $_POST["major"] : die();
+$obj->pass = isset($_POST["pass"]) ? $_POST["pass"] : die();
+$obj->majorId = isset($_POST["major"]) ? $_POST["major"] : die();
 
 if($obj->update()) {
     echo json_encode(array("message" => "Record was updated."));

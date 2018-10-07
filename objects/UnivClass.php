@@ -18,7 +18,9 @@ class UnivClass {
 	}
 
     function create() {
-        $query = "INSERT INTO `class` VALUES(DEFAULT, :date, :startTime, :endTime, :courseId, :roomId)";
+        $query = "
+        	INSERT INTO `class`(`date`, `start_time`, `end_time`, `fk_course_id`, `fk_room_id`) 
+        	VALUES(:date, :startTime, :endTime, :courseId, :roomId)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":date", $this->date, PDO::PARAM_STR);
@@ -44,7 +46,8 @@ class UnivClass {
 			  r.`name` `room_name`
 			FROM `class` c
 			INNER JOIN `course` co ON co.`course_id` = c.`fk_course_id`
-			INNER JOIN `room` r ON r.`room_id` = c.`fk_room_id`";
+			INNER JOIN `room` r ON r.`room_id` = c.`fk_room_id`
+			WHERE `is_deleted` = 0";
 
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
@@ -63,7 +66,7 @@ class UnivClass {
 			FROM `class` c
 			INNER JOIN `course` co ON co.`course_id` = c.`fk_course_id`
 			INNER JOIN `room` r ON r.`room_id` = c.`fk_room_id`
-			WHERE `class_id` = :id";
+			WHERE `class_id` = :id AND `is_deleted` = 0";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":id", $this->id, PDO::PARAM_INT);
@@ -99,7 +102,7 @@ class UnivClass {
     }
 
     function delete() {
-        $query = "DELETE FROM `class` WHERE `class_id` = :id";
+        $query = "UPDATE `class` SET `is_deleted` = 1 WHERE `class_id` = :id";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":id", $this->id, PDO::PARAM_INT);
@@ -114,7 +117,7 @@ class UnivClass {
 
 	function readCurrentClass($beaconId) {
 		$query = "
-			SELECT co.`name`, cl.`start_time`, cl.`end_time`
+			SELECT cl.`class_id`, co.`name`, cl.`start_time`, cl.`end_time`
 			FROM student_has_course sco
 			INNER JOIN `student` s ON s.`student_id` = sco.`fk_student_id`
 			INNER JOIN `course` co ON co.`course_id` = sco.`fk_course_id`

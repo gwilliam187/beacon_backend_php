@@ -12,7 +12,7 @@ class Major {
 	}
 
 	function create() {
-		$query = "INSERT INTO `major` VALUES(DEFAULT, :name)";
+		$query = "INSERT INTO `major`(`name`) VALUES(:name)";
 
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
@@ -25,7 +25,7 @@ class Major {
 	}
 
 	function read() {
-		$query = "SELECT * FROM `major`";
+		$query = "SELECT * FROM `major` WHERE `is_deleted` = 0";
 
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
@@ -34,7 +34,7 @@ class Major {
 	}
 
 	function readOne() {
-		$query = "SELECT * FROM `major` WHERE `major_id` = :id";
+		$query = "SELECT * FROM `major` WHERE `major_id` = :id AND `is_deleted` = 0";
 
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindValue(":id", $this->id, PDO::PARAM_INT);
@@ -58,7 +58,7 @@ class Major {
 	}
 
 	function delete() {
-	    $query = "DELETE FROM `major` WHERE `major_id` = :id";
+	    $query = "UPDATE `major` SET `is_deleted` = 1 WHERE `major_id` = :id";
 
 	    $stmt = $this->conn->prepare($query);
 	    $stmt->bindValue(":id", $this->id, PDO::PARAM_INT);

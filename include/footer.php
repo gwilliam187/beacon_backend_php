@@ -34,6 +34,7 @@ $footer = '
 <script src="../../assets/plugins/jquery-flot/jquery.flot.js" type="text/javascript"></script>
 <script src="../../assets/plugins/jquery-metrojs/MetroJs.min.js" type="text/javascript"></script>
 <script src="../../assets/plugins/DataTables/datatables.min.js" type="text/javascript"></script>
+<script src="../../assets/plugins/DataTables/datatables.select.min.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN CORE TEMPLATE JS -->
 <!-- <script src="../../assets/js/dashboard_v2.js" type="text/javascript"></script> -->
@@ -48,7 +49,7 @@ $footer = '
 			$(".side-attendance").addClass("active");
 		} else if(dir == "class") {
 			$(".side-class").addClass("active");
-		} else if(dir == "course") {
+		} else if(dir == "course" || dir == "course_has_student") {
 			$(".side-course").addClass("active");
 		} else if(dir == "student") {
 			$(".side-student").addClass("active");

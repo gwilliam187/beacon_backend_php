@@ -2,6 +2,9 @@
 
 include('../../include/include.php');
 
+$getData = callAPI("GET", "http://localhost/beacon_backend/api/major/read.php", false);
+$majorList = json_decode($getData, true);
+
 ?>
 
 <!doctype html>
@@ -20,10 +23,10 @@ include('../../include/include.php');
     	<div class="content">
 				<ul class="breadcrumb">
 					<li><p>YOU ARE HERE</p></li>
-					<li><a href="#" class="active">Add Major</a> </li>
+					<li><a href="#" class="active">Add Student</a> </li>
 				</ul>
 				<div class="page-title"> <i class="icon-custom-left"></i>
-					<h3>Major - <span class="semi-bold">Add</span></h3>
+					<h3>Student - <span class="semi-bold">Add</span></h3>
 				</div>
 				<div class="row" >
           <div class="col-md-12">
@@ -41,11 +44,42 @@ include('../../include/include.php');
                   <div class="row">
                     <div class="col-md-8 col-sm-8 col-xs-8" >
                       <div class="form-group">
-                        <label class="form-label">Major Name</label>
+                        <label class="form-label">Student ID</label>
                         <!-- <span class="help">asdf</span> -->
                         <!-- <span>This Field Is Required</span> -->
                         <div class="controls">
+                          <input type="text" name="id" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">Name</label>
+                        <div class="controls">
                           <input type="text" name="name" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">Entrance Date</label>
+                        <div class="controls">
+                          <input type="date" name="entrance_date" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <div class="controls">
+                          <input type="text" name="pass" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">Major</label>
+                        <div class="controls">
+                          <select name="major" class="form-control">
+                            <?php
+                              foreach($majorList as $major) {
+                                $html = "<option value='" . $major["id"] . "'>" . $major['name'] . "</option>";
+                                echo $html;
+                              }
+                            ?>
+                          </select>
                         </div>
                       </div>
                     </div>
@@ -68,7 +102,9 @@ include('../../include/include.php');
     $("#pageForm").submit(function(e) {
       e.preventDefault();
       var data = $(this).serialize();
-      $.post("/beacon_backend/api/major/create.php", data, function(data, status) {
+      // alert($("input[name='entrance_date']").val())
+      // alert(data)
+      $.post("/beacon_backend/api/student/create.php", data, function(data, status) {
         if(status == "success") {
           $("#pageForm").prepend(
             "<div class='alert alert-success'>" +
