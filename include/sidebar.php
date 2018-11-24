@@ -15,18 +15,11 @@ $sidebar = '
             <span class="selected"></span>
           </a>
         </li>
-        <li class="side-attendance">
-          <a href="javascript:;"> <i class="material-icons">check_circle</i> <span class="title">Attendances</span> <span class="arrow"></span> </a>
-          <ul class="sub-menu">
-            <li><a href="theme_coporate.html">Add Attendance</a></li>
-            <li><a href="theme_simple.html">View Attendances</a></li>
-          </ul>
-        </li>
         <li class="side-class">
           <a href="javascript:;"> <i class="material-icons">calendar_today</i> <span class="title">Classes</span> <span class="arrow"></span> </a>
           <ul class="sub-menu">
-            <li><a href="theme_coporate.html">Add Class</a></li>
-            <li><a href="theme_simple.html">View Classes</a></li>
+            <li><a href="../class/add.php">Add Class</a></li>
+            <li><a href="../class/view.php">View Classes</a></li>
           </ul>
         </li>
         <li class="side-course">

@@ -15,7 +15,7 @@ $navbar = '
         </ul>
         <!-- BEGIN LOGO -->
         <a>
-          <img src="../../assets/img/logo.png" class="logo" alt="" data-src="../../assets/img/logo.png" data-src-retina="../../assets/img/logo2x.png" width="106" height="21" />
+          <img src="../../assets/img/boclogo.png" class="logo logo-custom" alt="" data-src="../../assets/img/boclogo.png" data-src-retina="../../assets/img/boclogo.png" width="40" height="40" />
         </a>
         <!-- END LOGO -->
         <ul class="nav pull-right notifcation-center">
@@ -48,10 +48,7 @@ $navbar = '
               </a>
               <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="user-options">
                 <li>
-                  <a href="user-profile.html">My Account</a>
-                </li>
-                <li>
-                  <a href="login.html"><i class="material-icons">power_settings_new</i>&nbsp;&nbsp;Log Out</a>
+                  <a href="../home/logout.php"><i class="material-icons">power_settings_new</i>&nbsp;&nbsp;Log Out</a>
                 </li>
               </ul>
             </li>

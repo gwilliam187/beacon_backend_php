@@ -21,22 +21,18 @@ $stmt = $obj->login();
 $num = $stmt->rowCount();
 
 if($num > 0) {
-    $objArr = array();
-
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { 
         $objItem = array(
             "id" => $row["student_id"],
             "name" => $row["name"],
             "entranceDate" => $row["entrance_date"],
             "majorName" => $row["major_name"]
-        );
-        
-        $objArr[] = $objItem;
+        );        
     }
- 
-    echo json_encode($objArr);
+    
+    echo json_encode(array("message" => "success", "data" => $objItem));
 } else {
-    echo json_encode(array());
+    echo json_encode(array("message" => "fail"));
 }
 
 ?>

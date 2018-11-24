@@ -58,6 +58,10 @@ $footer = '
 		} else if(dir == "room") {
 			$(".side-room").addClass("active");
 		}
+
+		$("i.icon-custom-left").click(function() {
+			window.history.back();	
+		})
 	});
 </script>
 ';

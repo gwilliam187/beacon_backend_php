@@ -1,6 +1,5 @@
 <?php
 
-include('session.php');
 include("lib.php");
 include("head.php");
 include("navbar.php");

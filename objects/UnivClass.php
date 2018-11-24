@@ -39,7 +39,10 @@ class UnivClass {
 	function read() {
 		$query = "
 			SELECT 
-			  c.*,
+			  c.`class_id`,
+              c.`date`,
+              c.`start_time`,
+              c.`end_time`,
 			  co.`course_id`, 
 			  co.`name` `course_name`, 
 			  r.`room_id`,
@@ -47,7 +50,7 @@ class UnivClass {
 			FROM `class` c
 			INNER JOIN `course` co ON co.`course_id` = c.`fk_course_id`
 			INNER JOIN `room` r ON r.`room_id` = c.`fk_room_id`
-			WHERE `is_deleted` = 0";
+			WHERE c.`is_deleted` = 0";
 
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
@@ -66,7 +69,7 @@ class UnivClass {
 			FROM `class` c
 			INNER JOIN `course` co ON co.`course_id` = c.`fk_course_id`
 			INNER JOIN `room` r ON r.`room_id` = c.`fk_room_id`
-			WHERE `class_id` = :id AND `is_deleted` = 0";
+			WHERE `class_id` = :id AND c.`is_deleted` = 0";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":id", $this->id, PDO::PARAM_INT);
@@ -80,8 +83,8 @@ class UnivClass {
             UPDATE `class` 
             SET 
                 `date` = :date,
-                `startTime` = :startDate,
-                `endTime` = :endTime,
+                `start_time` = :startTime,
+                `end_time` = :endTime,
                 `fk_course_id` = :courseId,
                 `fk_room_id` = :roomId  
             WHERE `class_id` = :id";
@@ -113,26 +116,6 @@ class UnivClass {
             return false;
         }
     }
-
-
-	function readCurrentClass($beaconId) {
-		$query = "
-			SELECT cl.`class_id`, co.`name`, cl.`start_time`, cl.`end_time`
-			FROM student_has_course sco
-			INNER JOIN `student` s ON s.`student_id` = sco.`fk_student_id`
-			INNER JOIN `course` co ON co.`course_id` = sco.`fk_course_id`
-			INNER JOIN `class` cl ON cl.`fk_course_id` = (
-				SELECT fk_course_id FROM class WHERE fk_room_id = (
-					SELECT room_id FROM room WHERE beacon='" . $beaconId . "'
-				)
-			)
-			WHERE NOW() BETWEEN (cl.`start_time` - INTERVAL 10 MINUTE) AND cl.`end_time`";
-
-		$stmt = $this->conn->prepare($query);
-		$stmt->execute();
-
-		return $stmt;
-	}
 }
 
 ?>

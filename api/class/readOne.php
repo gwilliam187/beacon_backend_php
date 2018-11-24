@@ -29,13 +29,14 @@ if($num == 1) {
 	$obj->endTime = $row["end_time"];
 	$obj->course = $row["course_name"];
 	$obj->room = $row["room_name"];
+	
 	$objItem = array(
 		"id" => $obj->id,
         "date" => $obj->date,
         "startTime" => $obj->startTime,
         "endTime" => $obj->endTime,
-        "courseName" => $obj->course,
-        "roomName" => $obj->room
+        "course" => $obj->course,
+        "room" => $obj->room
 	);
 
 	$objArr[] = $objItem;

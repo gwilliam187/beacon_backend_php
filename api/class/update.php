@@ -14,17 +14,23 @@ $db = $database->getConnection();
 
 $obj = new UnivClass($db);
 
-$obj->id = isset($_POST['id']) ? $_POST['id'] : die();
-$obj->date = isset($_POST['date']) ? $_POST['date'] : die();
-$obj->startTime = isset($_POST['start_time']) ? $_POST['start_time'] : die();
-$obj->endTime = isset($_POST['end_time']) ? $_POST['end_time'] : die();
-$obj->courseId = isset($_POST['course']) ? $_POST['course'] : die();
-$obj->roomId = isset($_POST['room']) ? $_POST['room'] : die();
+$obj->id = isset($_POST["id"]) ? $_POST["id"] : die();
+$rawDate = isset($_POST["date"]) ? $_POST["date"] : die();
+$rawStartTime = isset($_POST["start_time"]) ? $_POST["start_time"] : die();
+$obj->date = $rawDate;
+$obj->courseId = isset($_POST["course"]) ? $_POST["course"] : die();
+$obj->roomId = isset($_POST["room"]) ? $_POST["room"] : die();
+
+$startDatetime = $rawDate . ' ' . $rawStartTime;
+$startDatetime = date("Y-m-d H:i:s",strtotime($startDatetime));
+$endDatetime = date("Y-m-d H:i:s",strtotime('+1 hour', strtotime($startDatetime)));
+$obj->startTime = $startDatetime;
+$obj->endTime = $endDatetime;
 
 if($obj->update()) {
-    echo json_encode(array("message" => "Record was updated."));
+    echo json_encode(array("message" => "success"));
 } else {
-    echo json_encode(array("message" => "Unable to update record."));
+    echo json_encode(array("message" => "fail"));
 }
 
 ?>

@@ -14,15 +14,37 @@ $db = $database->getConnection();
  
 $obj = new UnivClass($db);
 
-$obj->date = isset($_POST["date"]) ? $_POST["date"] : die();
-$obj->startTime = isset($_POST["start_time"]) ? $_POST["start_time"] : die();
-$obj->endTime = isset($_POST["end_time"]) ? $_POST["end_time"] : die();
+$rawDate = isset($_POST["date"]) ? $_POST["date"] : die();
+$rawStartTime = isset($_POST["start_time"]) ? $_POST["start_time"] : die();
+$rawEndTime = isset($_POST["end_time"]) ? $_POST["end_time"] : die();
+$obj->date = $rawDate;
 $obj->courseId = isset($_POST["course"]) ? $_POST["course"] : die();
 $obj->roomId = isset($_POST["room"]) ? $_POST["room"] : die();
- 
-if($obj->create()) {
-    echo json_encode(array("message" => "Record was created."));
-} else {
-    echo json_encode(array("message" => "Unable to create record."));
+
+$startDatetime = $rawDate . ' ' . $rawStartTime;
+$startDatetime = date("Y-m-d H:i:s",strtotime($startDatetime));
+
+$endDatetime = $rawDate . ' ' . $rawEndTime;
+$endDatetime = date("Y-m-d H:i:s",strtotime($endDatetime));
+
+$currStartDatetime = $startDatetime;
+$isSuccess = true;
+while($currStartDatetime < $endDatetime) {
+	$currEndDatetime = date("Y-m-d H:i:s", strtotime('+1 hour', strtotime($currStartDatetime)));
+	$obj->startTime = $currStartDatetime;
+	$obj->endTime = $currEndDatetime;
+
+	if(!$obj->create()) {
+		$isSuccess = false;
+	}
+
+	$currStartDatetime = $currEndDatetime;
 }
+
+if($isSuccess) {
+    echo json_encode(array("message" => "success"));
+} else {
+    echo json_encode(array("message" => "fail"));
+}
+
 ?>

@@ -6,12 +6,12 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 require_once('../../config/database.php');
-require_once('../../objects/UnivClass.php');
+require_once('../../objects/UnivClassHasStudent.php');
 
 $database = new Database();
 $db = $database->getConnection();
  
-$obj = new UnivClass($db);
+$obj = new UnivClassHasStudent($db);
  
 $stmt = $obj->read();
 $num = $stmt->rowCount();
@@ -21,12 +21,12 @@ if($num > 0) {
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { 
         $objItem = array(
-            "id" => $row["class_id"],
-            "date" => $row["date"],
-            "startTime" => $row["start_time"],
-            "endTime" => $row["end_time"],
-            "course" => $row["course_name"],
-            "room" => $row["room_name"]
+            "studentId" => $row["student_id"],
+            "studentName" => $row["student_name"],
+            "majorId" => $row["major_id"],
+            "majorname" => $row["major_name"],
+            "classId" => $row["course_name"],
+            "courseName" => $row["room_name"]
         );
         
         $objArr[] = $objItem;
