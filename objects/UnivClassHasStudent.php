@@ -32,7 +32,7 @@ class UnivClassHasStudent {
 
 	function readAllStudentsInClass() {
 		$query = "
-			SELECT DISTINCT s.`student_id`, s.`name` student_name,
+			SELECT s.`student_id`, s.`name` student_name,
 				m.`major_id`, m.`name` major_name, 
 				co.`course_id`, co.`name` course_name,
                 IFNULL(sc.`attend_time`, 'Not attended') `attend_time`
@@ -40,8 +40,7 @@ class UnivClassHasStudent {
 			INNER JOIN `student_has_course` sco ON sco.`fk_student_id` = s.`student_id`
 			INNER JOIN `course` co ON co.`course_id` = sco.`fk_course_id`
 			INNER JOIN `class` c ON c.`fk_course_id` = co.`course_id`
-            LEFT JOIN `student_has_class` sc ON s.`student_id` = sc.`fk_student_id`
-            LEFT JOIN `student_has_class` sc2 ON c.`class_id` = sc2.`fk_class_id`
+            LEFT JOIN `student_has_class` sc ON (c.`class_id` = sc.`fk_class_id` AND s.`student_id` = sc.`fk_student_id`)
             INNER JOIN `major` m ON s.`fk_major_id` = m.`major_id`
 			WHERE 
 				s.`is_deleted` = 0 AND 
