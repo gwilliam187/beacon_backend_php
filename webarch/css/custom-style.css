@@ -31,3 +31,7 @@ select.dropdown100px {
 .logo-custom {
 	margin: 10px 25px;
 }
+
+.icon-custom-left:hover {
+	cursor: pointer;
+}

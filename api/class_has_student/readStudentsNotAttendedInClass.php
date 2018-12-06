@@ -29,8 +29,7 @@ if($num > 0) {
             "major" => $row["major_name"],
             "classId" => $row["course_name"],
             "courseId" => $row["course_id"],
-            "course" => $row["course_name"],
-            "attendTime" => $row["attend_time"]
+            "course" => $row["course_name"]
         );
         
         $objArr[] = $objItem;

@@ -47,7 +47,7 @@ $footer = '
 			$(".side-home").addClass("active");
 		} else if(dir == "attendance") {
 			$(".side-attendance").addClass("active");
-		} else if(dir == "class") {
+		} else if(dir == "class" || dir == "class_has_student") {
 			$(".side-class").addClass("active");
 		} else if(dir == "course" || dir == "course_has_student") {
 			$(".side-course").addClass("active");
